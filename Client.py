@@ -31,7 +31,7 @@ def receive():
 
 def send():  # event is passed by binders.
     """Handles sending of messages."""
-    msg=input("->")
+    msg=input()
     client_socket.send(bytes(msg, "utf8"))
     if msg == "!q":
         client_socket.close()

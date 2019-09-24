@@ -11,10 +11,10 @@ def accept_incoming_connections():
         print("%s:%s has connected." % client_address)
         client.send(bytes("Greetings from the cave! Now type your name and press enter!", "utf8"))
         addresses[client] = client_address
-        Thread(target=handle_client, args=(client,)).start()
+        Thread(target=handle_client, args=(client,client_address)).start()
 
 
-def handle_client(client):  # Takes client socket as argument.
+def handle_client(client,address):  # Takes client socket as argument.
     """Handles a single client connection."""
 
     name = client.recv(BUFSIZ).decode("utf8")
@@ -26,13 +26,14 @@ def handle_client(client):  # Takes client socket as argument.
 
     while True:
         msg = client.recv(BUFSIZ)
-        if msg != bytes("{quit}", "utf8"):
-            broadcast(msg, name+": ")
+        if msg != bytes("!q", "utf8"):
+            broadcast(msg, "->"+name+": ")
         else:
-            client.send(bytes("{quit}", "utf8"))
+            client.send(bytes("!q", "utf8"))
             client.close()
             del clients[client]
             broadcast(bytes("%s has left the chat." % name, "utf8"))
+            print("%s:%s has discconnected." % address)
             break
 
 
