@@ -2,9 +2,6 @@
 """Script for Tkinter GUI chat client."""
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
-import tkinter
-import asyncio
-from multiprocessing import Process
 
 client_socket = socket(AF_INET, SOCK_STREAM)
 
