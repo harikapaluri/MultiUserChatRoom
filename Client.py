@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-"""Script for Tkinter GUI chat client."""
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 
@@ -22,7 +20,6 @@ def receive():
         try:
             msg = client_socket.recv(BUFSIZ).decode("utf8")
             print(msg)
-            #msg_list.insert(tkinter.END, msg)
         except OSError:  # Possibly client has left the chat.
             break
 
@@ -33,22 +30,8 @@ def send():  # event is passed by binders.
     if msg == "!q":
         client_socket.close()
         exit()
-        #top.quit()
     send()
 
 if __name__ == '__main__':
     Thread(target = receive).start()
     Thread(target = send).start()
-
-
-'''loop= asyncio.get_event_loop()
-try:
-    asyncio.ensure_future(receive())
-    asyncio.ensure_future(send())
-    loop.run_forever()
-
-except Exception:
-    pass
-finally:
-    print("quitting")
-    loop.close()'''
