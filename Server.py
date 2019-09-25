@@ -1,19 +1,16 @@
-"""Server for multithreaded (asynchronous) chat application."""
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 
 
-def accept_incoming_connections():
-    """Sets up handling for incoming clients."""
+def incoming():
     while True:
         client, client_address = SERVER.accept()
         print("%s:%s has connected." % client_address)
         client.send(bytes("Welcome to SHH Chat server, now enter your name and join!", "utf8"))
-        Thread(target=handle_client, args=(client,client_address)).start()
+        Thread(target=new_client, args=(client,client_address)).start()
 
 
-def handle_client(client,address):  # Takes client socket as argument.
-    """Handles a single client connection."""
+def new_client(client,address): 
 
     name = client.recv(BUFSIZ).decode("utf8")
     welcome = 'Welcome %s! If you ever want to quit, type !q to exit.' % name
@@ -35,9 +32,7 @@ def handle_client(client,address):  # Takes client socket as argument.
             break
 
 
-def broadcast(msg, prefix=""):  # prefix is for name identification.
-    """Broadcasts a message to all the clients."""
-
+def broadcast(msg, prefix=""):  
     for sock in clients:
         sock.send(bytes(prefix, "utf8")+msg)
 
@@ -55,8 +50,8 @@ SERVER.bind(ADDR)
 
 if __name__ == "__main__":
     SERVER.listen(5)
-    print("Waiting for connection...")
-    ACCEPT_THREAD = Thread(target=accept_incoming_connections)
-    ACCEPT_THREAD.start()
-    ACCEPT_THREAD.join()
+    print("Accepting Connections...")
+    ACCEPT = Thread(target=incoming)
+    ACCEPT.start()
+    ACCEPT.join()
     SERVER.close()
