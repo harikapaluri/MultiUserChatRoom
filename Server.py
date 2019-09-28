@@ -10,7 +10,7 @@ def incoming():
         server.send(bytes("Welcome to SHH Chat server, enter your name and join the room!", "utf8"))
         Thread(target=new_client, args=(server,clientList)).start()
 
-#Function for connecting with a new client inorder to recieve and send messages to and from server
+#Function for connecting with a new client in order to recieve and send messages to and from server
 def new_client(newclient,address): 
     #Client enters name which has to be recieved by server. 
     nameOfClient = newclient.recv(BUFSIZ).decode("utf8")
@@ -29,7 +29,7 @@ def new_client(newclient,address):
         if msg != bytes("!q", "utf8"):
             messageBroadcast(msg, "->"+nameOfClient+": ")
         else:
-            newclient.send(bytes("!q", "utf8"))     #New client is sedning !q to the server inorder to quit the chat room.
+            newclient.send(bytes("!q", "utf8"))     #New client is sending !q to the server inorder to quit the chat room.
             newclient.close()
             del listOfClients[newclient]          #Closing connection for new client and deleting name entry from clients dictionary.
             messageBroadcast(bytes("%s has left the chat room." % nameOfClient, "utf8"))
@@ -37,12 +37,12 @@ def new_client(newclient,address):
             break
 
 
-#Function for Broadcast message that has to be sent to all existing Client connections of the server.
+#Function for Broadcasting message that has to be sent to all existing Client connections of the server.
 def messageBroadcast(message, nameId=""):  
     for socketConn in listOfClients:
         socketConn.send(bytes(nameId, "utf8")+message)
 
- #A Dictionary of client names       
+#A Dictionary of client names       
 listOfClients = {}
 #A Dictionary of client IP's
 listOfAddresses = {}
