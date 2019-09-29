@@ -9,7 +9,7 @@ BufferSize = 1024
 ADDR = (HOST, PORT)
 #Sending a request to the server to connect
 clientConnection.connect(ADDR)
-#Send Function call for the client to send messages on the server.
+#Send function call for the client to send messages on the server.
 def sendMessages(): 
      sendMessage=input()
      clientConnection.send(bytes(sendMessage, "utf8"))
@@ -17,13 +17,13 @@ def sendMessages():
         clientConnection.close()
         exit()
      sendMessages()
-#Recieve function  call for the client to recieve messages from other clients connected to the server.
+#Receive function  call for the client to receive messages from other clients connected to the server.
 def recvMessages():
      while True:
         try:
             messageRecieved = clientConnection.recv(BufferSize ).decode("utf8")
             print(messageRecieved)
-        except OSError:  #Chance of an excpetion arrises  if  the client has decided to close his connection. 
+        except OSError:  #Chance of an exception arises if the client has decided to close his connection. 
             break
 
 if __name__ == '__main__':
