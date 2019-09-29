@@ -4,11 +4,7 @@ from threading import Thread
 client_socket = socket(AF_INET, SOCK_STREAM)
 
 HOST = input('Enter host: ')
-PORT = input('Enter port: ')
-if not PORT:
-    PORT = 33000
-else:
-    PORT = int(PORT)
+PORT = int(input('Enter port: '))
 
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
