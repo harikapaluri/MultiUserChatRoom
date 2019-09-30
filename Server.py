@@ -26,15 +26,15 @@ def new_client(newclient,address):
 
     while True:
         msg = newclient.recv(BUFSIZ)
-        if msg != bytes("!q", "utf8"):
-            messageBroadcast(msg, "->"+nameOfClient+": ")
-        else:
+        if (msg == bytes("!q", "utf8")):
             newclient.send(bytes("!q", "utf8"))     #New client is sending !q to the server inorder to quit the chat room.
             newclient.close()
             del listOfClients[newclient]          #Closing connection for new client and deleting name entry from clients dictionary.
             messageBroadcast(bytes("%s has left the chat room." % nameOfClient, "utf8"))
             print("%s:%s has logged out ." % address)
             break
+        else:
+            messageBroadcast(msg, "->"+nameOfClient+": ")
 
 
 #Function for Broadcasting message that has to be sent to all existing Client connections of the server.
